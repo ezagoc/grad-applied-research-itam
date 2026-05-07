@@ -1,0 +1,75 @@
+---
+title: "TwitterAPI"
+author: "Eduardo Zago"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+To gain easy access to more functions, we can use the academictwitteR package. This tutorial provides examples of how to call the functions as well as how to properly save the data.
+
+First we install the package:
+
+```{r}
+install.packages('academictwitteR')
+```
+
+Call the libraries:
+
+```{r}
+library(academictwitteR)
+library(tidyverse)
+```
+
+```{r}
+# Call this function to pre-charge your bearer token in R memory
+set_bearer()
+```
+
+```{r}
+get_bearer()
+```
+
+## Full Archive Search
+
+To analyze Twitter Trends, one would certainly find it useful scrapping Tweets that have certain word or words in it (query search). To do so we could use academictwitteR function (get_all_tweets) as illustrated below:
+
+```{r}
+tweets <-
+  get_all_tweets(
+    query = "AMLO",
+    start_tweets = "2022-04-01T00:00:00Z",
+    end_tweets = "2022-04-02T00:00:00Z",
+    data_path = path, #set a path so that the function downloads them gradually
+    bind_tweets = FALSE,
+    n= 1000
+  )
+```
+
+It downloads them as JSON, the function bind_tweets formats them so you could work them in R and export them. 
+
+```{r}
+tweets <- bind_tweets(data_path = path)
+```
+
+We can build more advanced queries using the build_query() function: 
+
+```{r}
+query_amlo <- build_query(query = "AMLO", is_retweet = FALSE)
+```
+
+Prueba 
+```{r}
+tweets1 <-
+  get_all_tweets(
+    query = query_amlo,
+    start_tweets = "2022-03-29T00:00:00Z",
+    end_tweets = "2022-04-19T00:00:00Z",
+    bearer_token = '###',
+    bind_tweets = TRUE,
+    n= 100
+  )
+```
